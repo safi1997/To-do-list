@@ -1,14 +1,51 @@
-import React from 'react'
+import React from "react";
+import LeftArrow from "../icons/leftArrow";
 
-//Completed tasks are listed and crossed out here
-const IsDoneItem=()=>{
+import TrashButton from "../icons/TrashButton";
+
+export default function IsDoneItem({
+  todos,
+  setTodos,
+  doneItems,
+  setDoneItems,
+}) {
+  // The function that deletes a todo
+  const deleteTodo = (pIndex) => {
+    const newDoneItems = doneItems.filter(
+      (doneItem, index) => index !== pIndex
+    );
+    setDoneItems(newDoneItems);
+  };
+
+  // The function that passes a isdone item from isdone list to todolist
+  const passToTodo = (pIndex) => {
+    const passItem = doneItems.filter((item, index) => index === pIndex);
+    setTodos([...todos, passItem]);
+    const newIsDoneList = doneItems.filter((todo, index) => index !== pIndex);
+    setDoneItems(newIsDoneList);
+  };
+
+  const doneItem = doneItems?.map((doneItem, index) => (
+    <li
+      key={index}
+      className="list-group-item justify-content-between d-flex align-items-center text-decoration-line-through text-muted">
+      <div className="text-break">{doneItem}</div>
+      <div>
+        <button className="r-arrow" onClick={() => passToTodo(index)}>
+          <LeftArrow />
+        </button>
+        <button className="edit" onClick={() => deleteTodo(index)}>
+          <TrashButton />
+        </button>
+      </div>
+    </li>
+  ));
+
   return (
-  <ul data-testid="is-done-item" className="list-group">
-    <li className="list-group-item disabled d-flex justify-content-between"><s>milk</s><i className="bi bi-trash text-danger"></i></li>
-    <li className="list-group-item disabled d-flex justify-content-between"><s>english exam</s><i className="bi bi-trash text-danger"></i></li>
-    <li className="list-group-item disabled d-flex justify-content-between"><s>js practical exam</s><i className="bi bi-trash text-danger"></i></li>
-  </ul>
-  )
+    <div data-testid="isDoneItemContainer">
+      <ul className="list-group" data-testid="isdone-list">
+        {doneItem}
+      </ul>
+    </div>
+  );
 }
-
-export default IsDoneItem

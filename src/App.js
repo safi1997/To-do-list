@@ -7,42 +7,52 @@ import IsDoneItem from "./component/IsDoneItem";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Input from "./component/Input";
 
-//Components are called from App js based on hearing and position on the page
 function App() {
-  const [todoItem, setTodoItem] = useState({ text: "", isDone: false });
-  const [todoList, setTodoList] = useState([]);
+  // Setting states
+  const [todos, setTodos] = useState(["Typing...."]);
+  const [doneItems, setDoneItems] = useState(["Not Moved"]);
+  const [newTodo, setNewTodo] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [valueToBeUpdated, setValueToBeUpdated] = useState("");
+  const [index, setIndex] = useState();
 
-  function setTodoText(event) {
-    setTodoItem({ text: event.target.value, isDone: false });
-  }
-  function addTodo() {
-    todoList.push(todoItem);
-    setTodoList(todoList);
-    setTodoItem({ text: "", isDone: false });
-  }
-
-  function finishTodo(todo) {
-    todo.isDone = true;
-    setTodoList([...todoList]);
-  }
-
-  function sendBack(todo) {
-    todo.isDone = false;
-    setTodoList([...todoList]);
-  }
   return (
     <>
       <div className="input">
-        <Input></Input>
+        <Input
+          newTodo={newTodo}
+          setNewTodo={setNewTodo}
+          isEditing={isEditing}
+          todos={todos}
+          setTodos={setTodos}
+          valueToBeUpdated={valueToBeUpdated}
+          setValueToBeUpdated={setValueToBeUpdated}
+          index={index}
+          setIsEditing={setIsEditing}
+        />
       </div>
       <div className="App d-flex justify-content-center">
         <div className="todo me-3 ">
-          <TodoTitle></TodoTitle>
-          <TodoListItem></TodoListItem>
+          <TodoTitle />
+          <TodoListItem
+            todos={todos}
+            setIsEditing={setIsEditing}
+            isEditing={isEditing}
+            setValueToBeUpdated={setValueToBeUpdated}
+            setIndex={setIndex}
+            setDoneItems={setDoneItems}
+            doneItems={doneItems}
+            setTodos={setTodos}
+          />
         </div>
         <div className="isdone">
-          <IsDoneTitle></IsDoneTitle>
-          <IsDoneItem></IsDoneItem>
+          <IsDoneTitle />
+          <IsDoneItem
+            doneItems={doneItems}
+            setDoneItems={setDoneItems}
+            todos={todos}
+            setTodos={setTodos}
+          />
         </div>
       </div>
     </>

@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 
-//Todo title component rendered here
-const TodoTitle=()=>{
+export default function TodoTitle() {
   return (
-    <h4 data-testid="todo-title" className='bg-success text-white font-weight-bold mb-3 text-center border border-success rounded' >TODO LIST</h4>
-  )
+    <div data-testid="todo-title">
+      <div className="badge px-2 w-100 fs-4 mb-2 bg-success">TODO LIST</div>
+    </div>
+  );
 }
-
-export default TodoTitle

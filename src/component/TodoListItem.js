@@ -1,15 +1,53 @@
-import React from 'react'
+import React from "react";
+import RightArrow from "../icons/RightArrow";
+import EditButton from "../icons/EditButton";
 
-//the tasks to be done were rendered as a list in the todo item list component
-function TodoListItem() {
+export default function TodoListItem({
+  todos,
+  setIsEditing,
+  setValueToBeUpdated,
+  setIndex,
+  setDoneItems,
+  doneItems,
+  setTodos,
+}) {
+  // The function that puts the value of item to be updated innto the form
+  const handleEdit = (pIndex) => {
+    setIsEditing(true);
+    const itemToBeUpdated = todos.filter((doneItem, index) => index === pIndex);
+    setValueToBeUpdated(itemToBeUpdated);
+    setIndex(pIndex);
+  };
+
+  // The function that passes a todo from todolist to isdone list
+  const passToDone = (pIndex) => {
+    const passItem = todos.filter((item, index) => index === pIndex);
+    setDoneItems([...doneItems, passItem]);
+    const newTodoList = todos.filter((todo, index) => index !== pIndex);
+    setTodos(newTodoList);
+  };
+
+  const todo = todos?.map((todo, index) => (
+    <li
+      key={index}
+      className="list-group-item d-flex justify-content-between align-items-center">
+      <div className="text-break">{todo}</div>
+      <div>
+        <button className="r-arrow" onClick={() => passToDone(index)}>
+          <RightArrow />
+        </button>
+        <button className="edit" onClick={() => handleEdit(index)}>
+          <EditButton />
+        </button>
+      </div>
+    </li>
+  ));
+
   return (
-  <ul data-testid="todo-list" className="list-group">
-    <li className="list-group-item d-flex justify-content-between">go shopping<i className="bi bi-arrow-right-square-fill text-success"></i></li>
-    <li className="list-group-item d-flex justify-content-between">school<i className="bi bi-arrow-right-square-fill text-success"></i></li>
-    <li className="list-group-item d-flex justify-content-between">take drugs<i className="bi bi-arrow-right-square-fill text-success"></i></li>
-    <li className="list-group-item d-flex justify-content-between">birthday party<i className="bi bi-arrow-right-square-fill text-success"></i></li>
-    <li className="list-group-item d-flex justify-content-between">learn react<i className="bi bi-arrow-right-square-fill text-success"></i></li>
-  </ul>
-  )
+    <div data-testid="todo-container">
+      <ul className="list-group" data-testid="todo-list">
+        {todo}
+      </ul>
+    </div>
+  );
 }
-export default TodoListItem
